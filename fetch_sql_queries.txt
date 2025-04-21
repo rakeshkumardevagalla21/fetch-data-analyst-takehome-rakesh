@@ -1,5 +1,4 @@
-﻿
-    • Closed Ended Qs 1: What are the top 5 brands by receipts scanned among users 21 and over?
+# Closed Ended Qs 1: What are the top 5 brands by receipts scanned among users 21 and over?
 
 SELECT 
         p.brand,
@@ -23,7 +22,7 @@ Result:
 4    SOUR PATCH KIDS                            2
 
 
-Closed Ended Qs2: 	What are the top 5 brands by sales among users that have had their account for at least six months?
+# Closed Ended Qs2: 	What are the top 5 brands by sales among users that have had their account for at least six months?
 
 SELECT 
         p.brand,
@@ -47,7 +46,7 @@ Result:
 4                  None                16.65
 
 
-Open Ended Qs1: Who are Fetch’s power users?
+# Open Ended Qs1: Who are Fetch’s power users?
 
 SELECT 
         u.id AS user_id,
