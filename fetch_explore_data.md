@@ -43,10 +43,3 @@ Yes, the following fields need clarification or transformation:
 
 ---
 
-## 🧰 Tools Used
-- Python (Pandas) for data cleaning and inspection
-- SQL (via SQLite) for query-based analysis
-- Seaborn & Matplotlib for visual exploration
-
----
-
