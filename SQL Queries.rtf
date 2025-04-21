@@ -1,0 +1,106 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2821
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fswiss\fcharset0 ArialMT;\f2\fnil\fcharset0 Menlo-Regular;
+}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red0\green0\blue0;\red255\green255\blue255;
+}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;\cssrgb\c0\c0\c0\c87059;\cssrgb\c100000\c100000\c100000;
+}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 \
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls1\ilvl0
+\f1\fs28 \cf0 Closed Ended Qs 1: \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 What are the top 5 brands by receipts scanned among users 21 and over?\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 \
+SELECT \
+    p.brand,\
+    COUNT(DISTINCT t.receipt_id) AS receipt_count\
+FROM Transactions t\
+JOIN Users u ON t.user_id = u.id\
+JOIN Products p ON t.barcode = p.barcode\
+WHERE \
+    u.birth_date IS NOT NULL AND\
+    DATE('now') >= DATE(u.birth_date, '+21 years')\
+GROUP BY p.brand\
+ORDER BY receipt_count DESC\
+LIMIT 5;\
+\
+Result:\
+\pard\pardeftab720\partightenfactor0
+
+\f2\fs26 \cf3 \cb4 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec3              BRAND  receipt_count\
+0      NERDS CANDY              3\
+1             DOVE              3\
+2             None              3\
+3          TRIDENT              2\
+4  SOUR PATCH KIDS              2\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 \cb1 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 \
+\
+Closed Ended Qs2: 
+\f1\fs28 	\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 What are the top 5 brands by sales among users that have had their account for at least six months?\
+\
+SELECT \
+    p.brand,\
+    SUM(t.FINAL_SALE) AS total_sales\
+FROM Transactions t\
+JOIN Users u ON t.user_id = u.id\
+JOIN Products p ON t.barcode = p.barcode\
+WHERE \
+    u.created_date <= DATE('now', '-6 months') AND\
+    t.FINAL_SALE IS NOT NULL\
+GROUP BY p.brand\
+ORDER BY total_sales DESC\
+LIMIT 5;\
+\
+Result:\
+\pard\pardeftab720\partightenfactor0
+
+\f2\fs26 \cf3 \cb4 \strokec3          BRAND  total_sales\
+0          CVS        72.00\
+1      TRIDENT        46.72\
+2         DOVE        42.88\
+3  COORS LIGHT        34.96\
+4         None        16.65\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f1\fs28 \cf0 \cb1 \strokec2 \
+\
+Open Ended Qs1: Who are Fetch\'92s power users?\
+\
+SELECT \
+    u.id AS user_id,\
+    COUNT(DISTINCT t.receipt_id) AS receipts_scanned,\
+    SUM(t.FINAL_SALE) AS total_spent\
+FROM Transactions t\
+JOIN Users u ON t.user_id = u.id\
+WHERE t.FINAL_SALE IS NOT NULL\
+GROUP BY u.id\
+ORDER BY receipts_scanned DESC, total_spent DESC\
+LIMIT 10;\
+\
+Result:\
+\pard\pardeftab720\partightenfactor0
+
+\f2\fs26 \cf3 \cb4 \strokec3                     user_id  receipts_scanned  total_spent\
+0  62ffec490d9dbaff18c0a999                 3        52.28\
+1  62c09104baa38d1a1f6c260e                 3        20.28\
+2  61a58ac49c135b462ccddd1c                 3        19.92\
+3  610a8541ca1fab5b417b5d33                 3        17.65\
+4  5c366bf06d9819129dfa1118                 3        17.42\
+5  6528a0a388a3a884364d94dc                 3        12.50\
+6  643059f0838dd2651fb27f50                 2        75.99\
+7  6351760a3a4a3534d9393ecd                 2        27.74\
+8  64dd9170516348066e7c4006                 2        26.52\
+9  5b441360be53340f289b0795                 2        18.32
+\f1\fs28 \cf0 \cb1 \strokec2 \
+}
